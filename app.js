@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const imageMap = {
+        2: 'images/char_2.png',
+        4: 'images/char_4.png',
+        8: 'images/char_8.png',
+        16: 'images/char_16.png',
+        32: 'images/char_32.png',
+        64: 'images/char_64.png',
+        128: 'images/char_128.png',
+        256: 'images/char_256.png',
+        512: 'images/char_512.png',
+        1024: 'images/char_1024.png',
+        2048: 'images/char_2048.png',
+        4096: 'images/char_4096.png'
+    }
+    
     const gridDisplay = document.querySelector(".grid")
     const scoreDisplay = document.querySelector("#score")
     const resultDisplay = document.querySelector("#result")
@@ -9,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function createBoard() {
         for (let i = 0; i < width * width; i++) {
             const square = document.createElement("div")
-            square.innerHTML = 0
+            square.dataset.value = 0
             gridDisplay.appendChild(square)
             squares.push(square)
         }
@@ -20,8 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function generate() {
         const randomNumber = Math.floor(Math.random() * squares.length)
-        if (squares[randomNumber].innerHTML == 0) {
-            squares[randomNumber].innerHTML = 2
+        if (squares[randomNumber].dataset.value == 0) {
+            squares[randomNumber].dataset.value = 2
+            renderTileVisuals()
             checkForGameOver()
         } else generate()
     }
@@ -29,10 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function moveRight() {
         for (let i = 0; i < 16; i++) {
             if (i % 4 === 0) {
-                let row = [0, 1, 2, 3].map(j => parseInt(squares[i + j].innerHTML))
+                let row = [0, 1, 2, 3].map(j => parseInt(squares[i + j].dataset.value || "0"))
                 let filteredRow = row.filter(num => num)
                 let newRow = Array(4 - filteredRow.length).fill(0).concat(filteredRow)
-                newRow.forEach((val, j) => squares[i + j].innerHTML = newRow[j])
+                newRow.forEach((val, j) => squares[i + j].dataset.value = newRow[j])
             }
         }
     }
@@ -40,38 +56,38 @@ document.addEventListener("DOMContentLoaded", () => {
     function moveLeft() {
         for (let i = 0; i < 16; i++) {
             if (i % 4 === 0) {
-                let row = [0, 1, 2, 3].map(j => parseInt(squares[i + j].innerHTML))
+                let row = [0, 1, 2, 3].map(j => parseInt(squares[i + j].dataset.value || "0"))
                 let filteredRow = row.filter(num => num)
                 let newRow = filteredRow.concat(Array(4 - filteredRow.length).fill(0))
-                newRow.forEach((val, j) => squares[i + j].innerHTML = newRow[j])
+                newRow.forEach((val, j) => squares[i + j].dataset.value = newRow[j])
             }
         }
     }
 
     function moveUp() {
         for (let i = 0; i < 4; i++) {
-            let column = [0, 1, 2, 3].map(j => parseInt(squares[i + width * j].innerHTML))
+            let column = [0, 1, 2, 3].map(j => parseInt(squares[i + width * j].dataset.value || "0"))
             let filteredColumn = column.filter(num => num)
             let newColumn = filteredColumn.concat(Array(4 - filteredColumn.length).fill(0))
-            newColumn.forEach((val, j) => squares[i + width * j].innerHTML = newColumn[j])
+            newColumn.forEach((val, j) => squares[i + width * j].dataset.value = newColumn[j])
         }
     }
 
     function moveDown() {
         for (let i = 0; i < 4; i++) {
-            let column = [0, 1, 2, 3].map(j => parseInt(squares[i + width * j].innerHTML))
+            let column = [0, 1, 2, 3].map(j => parseInt(squares[i + width * j].dataset.value || "0"))
             let filteredColumn = column.filter(num => num)
             let newColumn = Array(4 - filteredColumn.length).fill(0).concat(filteredColumn)
-            newColumn.forEach((val, j) => squares[i + width * j].innerHTML = newColumn[j])
+            newColumn.forEach((val, j) => squares[i + width * j].dataset.value = newColumn[j])
         }
     }
 
     function combineRow() {
         for (let i = 0; i < 15; i++) {
-            if (squares[i].innerHTML === squares[i + 1].innerHTML) {
-                let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i + 1].innerHTML)
-                squares[i].innerHTML = combinedTotal
-                squares[i + 1].innerHTML = 0
+            if (squares[i].dataset.value === squares[i + 1].dataset.value) {
+                let combinedTotal = parseInt(squares[i].dataset.value || "0") + parseInt(squares[i + 1].dataset.value || "0")
+                squares[i].dataset.value = combinedTotal
+                squares[i + 1].dataset.value = 0
                 score += combinedTotal
                 scoreDisplay.innerHTML = score
             }
@@ -81,10 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function combineColumn() {
         for (let i = 0; i < 12; i++) {
-            if (squares[i].innerHTML === squares[i + width].innerHTML) {
-                let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i + width].innerHTML)
-                squares[i].innerHTML = combinedTotal
-                squares[i + width].innerHTML = 0
+            if (squares[i].dataset.value === squares[i + width].dataset.value) {
+                let combinedTotal = parseInt(squares[i].dataset.value || "0") + parseInt(squares[i + width].dataset.value || "0")
+                squares[i].dataset.value = combinedTotal
+                squares[i + width].dataset.value = 0
                 score += combinedTotal
                 scoreDisplay.innerHTML = score
             }
@@ -105,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         combineRow()
         moveLeft()
         generate()
+        renderTileVisuals()
     }
 
     function keyRight() {
@@ -112,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         combineRow()
         moveRight()
         generate()
+        renderTileVisuals()
     }
 
     function keyUp() {
@@ -119,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         combineColumn()
         moveUp()
         generate()
+        renderTileVisuals()
     }
 
     function keyDown() {
@@ -126,11 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
         combineColumn()
         moveDown()
         generate()
+        renderTileVisuals()
     }
 
     function checkForWin() {
         for (let i = 0; i < squares.length; i++) {
-            if (squares[i].innerHTML == 2048) {
+            if (squares[i].dataset.value == 2048) {
                 resultDisplay.innerHTML = "You WIN!"
                 document.removeEventListener("keydown", control)
                 setTimeout(clear, 3000)
@@ -139,12 +159,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkForGameOver() {
-        let zeros = squares.filter(square => square.innerHTML == 0).length
-        if (zeros === 0) {
-            resultDisplay.innerHTML = "You LOSE!"
-            document.removeEventListener("keydown", control)
-            setTimeout(clear, 3000)
+        let zeros = squares.filter(square => square.dataset.value == 0).length
+        if (zeros > 0) return
+    
+        for (let i = 0; i < width * width; i++) {
+            let value = parseInt(squares[i].dataset.value)
+            // check right
+            if (i % width !== width - 1) {
+                let right = parseInt(squares[i + 1].dataset.value)
+                if (value === right) return
+            }
+            // check below
+            if (i + width < width * width) {
+                let below = parseInt(squares[i + width].dataset.value)
+                if (value === below) return
+            }
         }
+    
+        resultDisplay.innerHTML = "You LOSE!"
+        document.removeEventListener("keydown", control)
+        setTimeout(clear, 3000)
     }
 
     function clear() {
@@ -153,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addColours() {
         for (let i = 0; i < squares.length; i++) {
-            const val = parseInt(squares[i].innerHTML)
+            const val = parseInt(squares[i].dataset.value || "0")
             squares[i].style.backgroundColor = {
                 0: "#afa192",
                 2: "#eee4da",
@@ -204,5 +238,22 @@ document.addEventListener("DOMContentLoaded", () => {
             if (diffY > 0) keyDown()
             else keyUp()
         }
+    }
+    
+    function renderTileVisuals() {
+    squares.forEach(square => {
+            const value = parseInt(square.dataset.value || "0")
+            square.textContent = ""
+            if (value && imageMap[value]) {
+                const img = document.createElement("img")
+                img.src = imageMap[value]
+                img.alt = value
+                img.className = "tile-img fade-in"
+                img.onerror = () => { square.textContent = value }
+                square.appendChild(img)
+            } else {
+                square.textContent = ""
+            }
+        })
     }
 })

@@ -3,8 +3,6 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Clear Sans", Helvetica, serif;
-    margin: 0;
-    padding: 0;
 }
 
 h1 {
@@ -51,12 +49,6 @@ p, h2 {
     text-align: center;
     font-size: 60px;
     line-height: 1.6;
-    transition: transform 0.2s ease;
-}
-
-.grid div.highlight {
-    transform: scale(1.15);
-    border: 2px solid #ffcc00;
 }
 
 .score-container {
@@ -76,36 +68,3 @@ p, h2 {
     font-size: 16px;
 }
 
-@media (max-width: 500px) {
-    .container {
-        width: 95%;
-        margin-top: 10px;
-    }
-
-    .grid {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        border: 5px solid #BBADA0;
-    }
-
-    .grid div {
-        width: 21%;
-        height: 21%;
-        margin: 2%;
-        font-size: 5vw;
-    }
-
-    h1 {
-        font-size: 48px;
-    }
-
-    #score {
-        font-size: 24px;
-    }
-
-    .score-container {
-        width: 60px;
-        height: 50px;
-    }
-}
