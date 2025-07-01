@@ -3,6 +3,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Clear Sans", Helvetica, serif;
+    overflow: hidden; /* ป้องกัน scroll บนมือถือ */
 }
 
 h1 {
@@ -67,4 +68,3 @@ p, h2 {
 .score-title {
     font-size: 16px;
 }
-

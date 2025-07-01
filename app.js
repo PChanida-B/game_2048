@@ -256,4 +256,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
+
+    document.addEventListener('touchmove', function(e) {
+        // Prevent swipe down from triggering pull-to-refresh
+        if (window.scrollY === 0 && touchStartY < touchEndY) {
+            e.preventDefault()
+        }
+    }, { passive: false })
 })
