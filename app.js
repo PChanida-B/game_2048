@@ -258,8 +258,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener('touchmove', function(e) {
-        // Prevent swipe down from triggering pull-to-refresh
+        // ป้องกัน swipe-down บนจอมือถือ (ที่ยังเหลือรอดบางเบราว์เซอร์)
         if (window.scrollY === 0 && touchStartY < touchEndY) {
+            e.preventDefault()
+        }
+    }, { passive: false })
+
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX
+        touchStartY = e.changedTouches[0].screenY
+    
+        // ป้องกัน swipe-down (pull-to-refresh)
+        if (window.scrollY === 0 && touchStartY < 50) {
             e.preventDefault()
         }
     }, { passive: false })
