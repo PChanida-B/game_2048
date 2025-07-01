@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkForWin() {
         for (let i = 0; i < squares.length; i++) {
-            if (squares[i].dataset.value == 2048) {
+            if (squares[i].dataset.value == 4096) {
                 resultDisplay.innerHTML = "You WIN!"
                 document.removeEventListener("keydown", control)
                 setTimeout(clear, 3000)
