@@ -257,12 +257,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // บล็อค pull-to-refresh อย่างเต็มรูปแบบ
     document.addEventListener('touchmove', function(e) {
-        // ป้องกัน swipe-down บนจอมือถือ (ที่ยังเหลือรอดบางเบราว์เซอร์)
-        if (window.scrollY === 0 && touchStartY < touchEndY) {
-            e.preventDefault()
-        }
-    }, { passive: false })
+        // ป้องกัน default behavior ทุกครั้งเมื่อโฟกัสอยู่บนหน้าเกม
+        e.preventDefault();
+    }, { passive: false, capture: true });
 
     document.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX

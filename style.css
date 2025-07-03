@@ -6,6 +6,12 @@ body {
     overflow: hidden; /* ป้องกัน scroll บนมือถือ */
 }
 
+html, body {
+    /* ปิด overscroll pull-to-refresh และ bounce scroll */
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+  }
+
 h1 {
     font-size: 80px;
     line-height: 0.7;
